@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+.env
+.env.*
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/
+
+# Generated local outputs
+reports/
+generated/
+
+# Local market data / fetched turnover data
+# These files can be large and are reproducible from tools/fetch_turnover.py.
+data/turnover/*.csv
+!data/turnover/.gitkeep
+
+# Logs / temp
+*.log
+*.tmp

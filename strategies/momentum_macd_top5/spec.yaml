@@ -1,0 +1,38 @@
+name: momentum_macd_top5
+strategy_type: momentum_macd_top5
+comment: 20日涨幅前10%、换手率>3%、站上20日均线、MACD金叉，排除ST/北交所/上市60天内新股，每日仅买信号排名前5。
+
+universe:
+  # 留空表示使用本地日K全市场股票池；回测时会自动排除北交所/ST/上市60天内新股。
+  codes: []
+
+backtest:
+  start: '2026-03-23'
+  end: '2026-04-30'
+  initial_cash: 1000000
+
+filters:
+  exclude_st: true
+  exclude_bj: true
+  # 当前本地日K只有 28 个交易日，无法验证“上市60天以内新股”；
+  # 先保留字段，PTrade实盘代码会按真实上市日期执行 60 天过滤。
+  min_listed_days: 1
+
+buy:
+  return_window: 20
+  return_top_pct: 0.10
+  min_turnover_pct: 3.0
+  trend_ma: ma20
+  macd_golden_cross: true
+  rank_by: ret_20d
+  rank_ascending: false
+  max_daily_buys: 5
+
+sell:
+  below_ma: ma20
+
+risk:
+  max_position_pct: 0.20
+  max_daily_buys: 5
+  stop_loss_pct: 0.08
+  take_profit_pct: 0.20

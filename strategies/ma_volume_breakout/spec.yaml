@@ -1,0 +1,35 @@
+name: ma_volume_breakout
+comment: MA5 上穿 MA20 且放量买入，跌破 MA10/止损/止盈卖出。
+
+universe:
+  codes:
+    - '000001'
+    - '000002'
+    - '000006'
+    - '000007'
+    - '000008'
+    - '000009'
+    - '000010'
+    - '000011'
+    - '000012'
+    - '000014'
+
+backtest:
+  start: '2026-01-01'
+  end: '2026-04-30'
+  initial_cash: 1000000
+
+buy:
+  cross_fast: ma5
+  cross_slow: ma20
+  trend_ma: ma20
+  volume_window: 5
+  volume_ratio: 1.2
+
+sell:
+  below_ma: ma10
+
+risk:
+  max_position_pct: 0.20
+  stop_loss_pct: 0.08
+  take_profit_pct: 0.15
