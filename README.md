@@ -14,10 +14,22 @@
 
 ## 数据源
 
-默认使用你的本机历史日 K：
+默认读取本机历史日 K，但文档中不暴露个人机器的绝对路径。可通过环境变量或默认数据目录配置：
 
 ```text
-/Users/mac/股票/炒股/日k/YYYY/YYYYMMDD.csv
+A_SHARE_DAILY_DIR=/path/to/local/a-share/daily-k
+```
+
+文件组织建议：
+
+```text
+${A_SHARE_DAILY_DIR}/YYYY/YYYYMMDD.csv
+```
+
+例如：
+
+```text
+/path/to/local/a-share/daily-k/2026/20260430.csv
 ```
 
 已识别字段：
@@ -29,7 +41,7 @@
 ## 快速运行
 
 ```bash
-cd /Users/mac/app/ptrade-quant-lab
+cd ptrade-quant-lab
 uv run python tools/run_backtest.py --strategy strategies/ma_volume_breakout/spec.yaml
 uv run python tools/generate_ptrade.py --strategy strategies/ma_volume_breakout/spec.yaml
 ```
