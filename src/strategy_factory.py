@@ -63,11 +63,14 @@ def build_momentum_macd_top5_signal(spec: StrategySpec) -> SignalFunc:
     filters = spec.raw.get('filters', {})
     risk = spec.raw.get('risk', {})
 
-    return_window = int(buy.get('return_window', 20))
-    top_pct = float(buy.get('return_top_pct', 0.10))
     min_turnover = float(buy.get('min_turnover_pct', 3.0))
     trend_ma = str(buy.get('trend_ma', 'ma20'))
     require_macd_golden_cross = bool(buy.get('macd_golden_cross', True))
+    pause_buy_on_market_weak = bool(buy.get('pause_buy_on_market_weak', False))
+    market_weak_cfg = buy.get('market_weak', {}) if isinstance(buy.get('market_weak', {}), dict) else {}
+    weak_strong_only = bool(market_weak_cfg.get('strong_only', False))
+    weak_min_pct_chg = float(market_weak_cfg.get('strong_pct_chg_gte', 0.0))
+    weak_min_turnover = float(market_weak_cfg.get('strong_turnover_pct_gte', min_turnover))
     sell_ma = str(sell.get('below_ma', 'ma20'))
     stop_loss_pct = float(risk.get('stop_loss_pct', 0.08))
     take_profit_pct = float(risk.get('take_profit_pct', 0.20))
@@ -95,17 +98,25 @@ def build_momentum_macd_top5_signal(spec: StrategySpec) -> SignalFunc:
 
         if not _passes_universe_filters(row, filters):
             return None, 'filtered_universe'
-        needed = [f'ret_{return_window}d', f'ret_{return_window}d_rank_pct', trend_ma, 'turnover_pct', 'dif', 'dea']
+        if pause_buy_on_market_weak and bool(row.get('market_weak', False)):
+            return None, 'market_weak_pause_buy'
+        needed = [trend_ma, 'turnover_pct', 'dif', 'dea']
         if any(pd.isna(row.get(x)) for x in needed):
             return None, 'not_enough_data'
-        rank_ok = float(row[f'ret_{return_window}d_rank_pct']) <= top_pct
         turnover_ok = float(row['turnover_pct']) > min_turnover
         trend_ok = close > float(row[trend_ma])
         macd_ok = bool(row.get('macd_golden_cross', False)) if require_macd_golden_cross else float(row['dif']) > float(row['dea'])
         limit_ok = not bool(row.get('is_limit_up', False))
-        if rank_ok and turnover_ok and trend_ok and macd_ok and limit_ok:
-            ret = float(row[f'ret_{return_window}d'])
-            return 'BUY', f'top{int(top_pct * 100)}pct_ret{ret:.2%}_turnover_macd'
+        weak_market = bool(row.get('market_weak', False))
+        if weak_market and weak_strong_only:
+            pct_chg = float(row.get('pct_chg', 0.0) or 0.0)
+            weak_strong_ok = pct_chg >= weak_min_pct_chg and float(row['turnover_pct']) >= weak_min_turnover
+            if not weak_strong_ok:
+                return None, 'market_weak_not_strong_enough'
+        if turnover_ok and trend_ok and macd_ok and limit_ok:
+            if weak_market and weak_strong_only:
+                return 'BUY', f'market_weak_strong_turnover_gt_{min_turnover:g}_{trend_ma}_macd_golden_cross'
+            return 'BUY', f'turnover_gt_{min_turnover:g}_{trend_ma}_macd_golden_cross'
         return None, 'no_signal'
 
     return signal

@@ -1,9 +1,8 @@
-name: momentum_macd_top5
+name: momentum_macd_top5_weakscale
 strategy_type: momentum_macd_top5
-comment: 主线D weakscale：排除ST/北交所、换手率>3%、站上20日均线、MACD金叉；弱市不禁买，改为限买2只且单票仓位降至10%；保留MA20卖出。
+comment: 优化组D：弱市不完全暂停买入，改为限买2只、单票仓位降至10%；保留MA20卖出。
 
 universe:
-  # 留空表示使用本地日K全市场股票池；回测时会自动排除 ST / 北交所。
   codes: []
 
 backtest:

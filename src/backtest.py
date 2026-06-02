@@ -42,6 +42,8 @@ class BacktestConfig:
     max_daily_buys: int | None = None
     buy_rank_field: str | None = None
     buy_rank_ascending: bool = False
+    weak_market_max_position_pct: float | None = None
+    weak_market_max_daily_buys: int | None = None
 
 
 @dataclass
