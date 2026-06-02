@@ -1,0 +1,49 @@
+backtest:
+  end: '2022-12-31'
+  initial_cash: 40000
+  start: '2022-01-01'
+buy:
+  exclude_limit_up: true
+  macd_cross_within_days: 3
+  max_pct_chg: 6.0
+  max_turnover_pct: 20.0
+  min_avg_amplitude_20d_pct: 4.0
+  min_pct_chg: 2.0
+  min_turnover_pct: 3.0
+  min_volume_ratio: 1.3
+  rank_ascending: false
+  rank_by: pct_chg
+  require_ma10_ma20_both_up_recent20: true
+  require_ma20_up: true
+  save_top_n: 2
+  trend_ma: ma20
+comment: 4万账户纪律版微调：基于最多6只/涨幅2-6%版本，不改核心逻辑；增加市场缩量不开新仓、20日均振幅过滤；移动止盈改为浮盈20%后最高价回撤8%且跌破MA10才卖。；新增市场代理/沪深300站上MA60才允许新开仓。；新增全A个股站上20日线比例>50%才允许新开仓。；新增过去20个交易日至少一次MA10和MA20同时向上确认。
+filters:
+  exclude_bj: true
+  exclude_st: true
+  min_listed_days: 0
+market_regime:
+  no_new_position_if_amount_below_ma20_ratio: 0.8
+  no_new_position_if_below_ma: ma60
+  no_new_position_if_ma20_breadth_lte: 0.5
+  use_hs300_proxy: true
+  weak_if_below_ma20: true
+  weak_if_ma20_down: true
+  weak_if_pct_chg_lt: -0.5
+  weak_max_position_pct: 0.15
+  weak_save_top_n: 1
+name: momentum_macd_top5_40k_afterclose_1440_pct2_6_micro_ma60gate_breadth50_maexpand20_2022
+risk:
+  max_buy_price: 132
+  max_daily_buys: 1
+  max_position_pct: 0.33
+  max_positions: 6
+  stop_loss_pct: 0.08
+  trailing_activation_pct: 0.2
+  trailing_require_below_ma: ma10
+  trailing_stop_pct: 0.08
+sell:
+  below_ma: ma20
+strategy_type: after_close_next_day_1440
+universe:
+  codes: []
