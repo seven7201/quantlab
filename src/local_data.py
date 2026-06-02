@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterable
@@ -11,7 +12,7 @@ from src.indicators import add_cross_sectional_ranks, add_indicators
 from src.turnover import load_turnover_cache
 
 
-DEFAULT_DAILY_ROOT = Path('/Users/mac/股票/炒股/日k')
+DEFAULT_DAILY_ROOT = Path(os.getenv('A_SHARE_DAILY_DIR', 'data/daily'))
 
 COLUMN_MAP = {
     '股票代码': 'code',

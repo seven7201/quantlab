@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import csv
+import os
 import subprocess
 import tempfile
 import zipfile
@@ -19,9 +20,9 @@ from src.reporting import write_report
 from src.spec import load_spec
 from src.strategy_factory import build_signal
 
-SRC_2025_ZIP = Path('/Users/mac/股票/炒股/2000-2025（分k）/按年下载(下载了根目录下的压缩包就不用下载这个)/2025/2025.zip')
-SRC_2026_ARCHIVES = Path('/Users/mac/股票/炒股/2026/每日数据')
-DEFAULT_DAILY_ROOT = Path('/Users/mac/股票/炒股/日k')
+SRC_2025_ZIP = Path(os.getenv('A_SHARE_MINUTE_2025_ZIP', 'data/minute/2025.zip'))
+SRC_2026_ARCHIVES = Path(os.getenv('A_SHARE_MINUTE_2026_DIR', 'data/minute/2026'))
+DEFAULT_DAILY_ROOT = Path(os.getenv('A_SHARE_DAILY_DIR', 'data/daily'))
 MINUTE_COLUMNS = ['日期', '时间', '开盘', '最高', '最低', '收盘', '成交量', '成交额']
 
 

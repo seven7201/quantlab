@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 from src.backtest import BacktestConfig, DailyBacktester
@@ -13,7 +14,7 @@ def main() -> None:
     parser.add_argument('--start', default='2026-01-01')
     parser.add_argument('--end', default='2026-04-30')
     parser.add_argument('--codes', default='000001,000002,000006')
-    parser.add_argument('--data-root', default='/Users/mac/股票/炒股/日k')
+    parser.add_argument('--data-root', default=os.getenv('A_SHARE_DAILY_DIR', 'data/daily'))
     args = parser.parse_args()
 
     codes = [x.strip() for x in args.codes.split(',') if x.strip()]

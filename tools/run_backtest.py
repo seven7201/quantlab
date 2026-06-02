@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 from src.backtest import BacktestConfig, DailyBacktester
@@ -13,7 +14,7 @@ from src.strategy_factory import build_signal
 def main() -> None:
     parser = argparse.ArgumentParser(description='Run local A-share daily backtest from a strategy YAML spec.')
     parser.add_argument('--strategy', required=True, help='Path to strategy spec.yaml')
-    parser.add_argument('--data-root', default='/Users/mac/股票/炒股/日k')
+    parser.add_argument('--data-root', default=os.getenv('A_SHARE_DAILY_DIR', 'data/daily'))
     parser.add_argument('--report-out', default=None)
     parser.add_argument('--trades-out', default=None)
     parser.add_argument('--equity-out', default=None)

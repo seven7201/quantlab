@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import argparse
-from dataclasses import asdict
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -213,7 +213,7 @@ class DailySignalMinuteExecutor(DailyBacktester):
 def main() -> None:
     parser = argparse.ArgumentParser(description='Run fast hybrid backtest: daily signals, minute execution.')
     parser.add_argument('--strategy', required=True)
-    parser.add_argument('--data-root', default='/Users/mac/股票/炒股/日k')
+    parser.add_argument('--data-root', default=os.getenv('A_SHARE_DAILY_DIR', 'data/daily'))
     parser.add_argument('--start', default=None)
     parser.add_argument('--end', default=None)
     parser.add_argument('--interval', default='1min')

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+import os
 from pathlib import Path
 
 import pandas as pd
@@ -32,7 +33,7 @@ def discover_local_daily(data_root: str, start: str | None, end: str | None, cod
 
 def main() -> None:
     parser = argparse.ArgumentParser(description='Fetch Eastmoney daily turnover rate (%) and persist local real turnover dataset.')
-    parser.add_argument('--data-root', default='/Users/mac/股票/炒股/日k')
+    parser.add_argument('--data-root', default=os.getenv('A_SHARE_DAILY_DIR', 'data/daily'))
     parser.add_argument('--start', default=None, help='Optional start date yyyy-mm-dd')
     parser.add_argument('--end', default=None, help='Optional end date yyyy-mm-dd')
     parser.add_argument('--codes', nargs='*', default=None, help='Optional explicit stock codes')
