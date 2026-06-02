@@ -14,22 +14,17 @@
 
 ## 数据源
 
-默认读取本机历史日 K，但文档中不暴露个人机器的绝对路径。可通过环境变量或默认数据目录配置：
+默认建议使用公开数据接口，例如 AkShare 或 Tushare；也可以在本地自行缓存为 CSV 后供回测读取。
 
 ```text
-A_SHARE_DAILY_DIR=/path/to/local/a-share/daily-k
+AkShare: https://akshare.akfamily.xyz/
+Tushare: https://tushare.pro/
 ```
 
-文件组织建议：
+如需本地缓存，建议按交易日组织为：
 
 ```text
-${A_SHARE_DAILY_DIR}/YYYY/YYYYMMDD.csv
-```
-
-例如：
-
-```text
-/path/to/local/a-share/daily-k/2026/20260430.csv
+data/daily/YYYY/YYYYMMDD.csv
 ```
 
 已识别字段：
