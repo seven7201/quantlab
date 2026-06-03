@@ -1,0 +1,49 @@
+name: momentum_macd_top5_400k_ptrade_migrated_20240924_latest
+strategy_type: after_close_next_day_1440
+comment: PTrade迁移版本同逻辑本地回测；区间2024-09-24至本地最新日K；初始资金400000。
+universe:
+  codes: []
+backtest:
+  start: '2024-09-24'
+  end: '2026-04-30'
+  initial_cash: 400000
+filters:
+  exclude_st: true
+  exclude_bj: true
+  min_listed_days: 0
+market_regime:
+  use_hs300_proxy: true
+  weak_if_pct_chg_lt: -0.5
+  weak_if_below_ma20: true
+  weak_if_ma20_down: true
+  weak_max_position_pct: 0.15
+  weak_save_top_n: 1
+  no_new_position_if_amount_below_ma20_ratio: 0.8
+  no_new_position_if_hs300_proxy_ret60_lte: 0.05
+  no_new_position_if_ma20_breadth_lte: 0.6
+buy:
+  min_turnover_pct: 3.0
+  max_turnover_pct: 20.0
+  min_volume_ratio: 1.3
+  min_pct_chg: 2.0
+  max_pct_chg: 6.0
+  trend_ma: ma20
+  require_ma20_up: true
+  macd_cross_within_days: 3
+  exclude_limit_up: true
+  save_top_n: 2
+  rank_by: pct_chg
+  rank_ascending: false
+  min_avg_amplitude_20d_pct: 4.0
+  require_ma10_ma20_both_up_recent20: true
+sell:
+  below_ma: ma20
+risk:
+  max_position_pct: 0.33
+  max_daily_buys: 1
+  max_positions: 6
+  stop_loss_pct: 0.08
+  trailing_activation_pct: 0.2
+  trailing_stop_pct: 0.08
+  trailing_require_below_ma: ma10
+  max_buy_price: 132
